@@ -11,6 +11,8 @@ struct ListNode
 struct ListNode* make_new_node(int, struct ListNode*);
 void print(struct ListNode*);
 struct ListNode* get_node_at(struct ListNode*, size_t);
+struct ListNode* get_node_with_value(struct ListNode*, int);
+int index_of_node(struct ListNode*, int);
 struct ListNode* add_first(struct ListNode**, int);
 struct ListNode* add_last(struct ListNode**, int);
 struct ListNode* add_nonascending(struct ListNode**, int);

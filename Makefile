@@ -1,5 +1,5 @@
-CC = gcc
-CFLAGS = -Wall --pedantic -std=c99
+CC = clang
+CFLAGS = -Wall --pedantic -std=c11
 OBJS = $(addsuffix .o, list_node menu list_menu)
 
 all: main

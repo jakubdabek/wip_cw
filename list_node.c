@@ -33,6 +33,27 @@ struct ListNode* get_node_at(struct ListNode *node, size_t index)
     return node;
 }
 
+struct ListNode* get_node_with_value(struct ListNode *node, int value)
+{
+    for(size_t i = 0; node && node->value != value; i++)
+    {
+        node = node->next;
+    }
+
+    return node;
+}
+
+int index_of_node(struct ListNode *node, int value)
+{
+    int i;
+    for(i = 0; node && node->value != value; i++)
+    {
+        node = node->next;
+    }
+
+    return node ? i : -1;
+}
+
 struct ListNode* add_first(struct ListNode **ptr, int value)
 {
     *ptr = make_new_node(value, *ptr);

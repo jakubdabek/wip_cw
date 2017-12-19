@@ -8,17 +8,16 @@
 void list_menu(struct ListNode**);
 //void tree_menu(struct TreeNode**);
 
+static void flush() { char c; while ((c = getchar()) != '\n' && c != EOF){} }
+
 void menu(struct ListNode **list)
 {
-    fflush(stdin);
-    getchar();
-    fflush(stdin);
     while (true)
     {
-        printf("What do you want to work with?\n");
+        flush();
+        printf("\033[H\033[2JWhat do you want to work with?\n");
         printf("1. Singly linked list\n"
                "2. Tree\n");
-        fflush(stdin);
         
         int answer = -1;
         if(!scanf("%d", &answer)) return;

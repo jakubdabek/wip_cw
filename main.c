@@ -36,6 +36,7 @@ int main(void)
         print(first_node);
     }
 
+    getchar();
     menu(&first_node);
 
     clear(&first_node);

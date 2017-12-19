@@ -4,20 +4,25 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-static void option_print_list(struct ListNode**);
-static void option_print_element(struct ListNode**);
-static void option_add_first(struct ListNode**);
-static void option_add_last(struct ListNode**);
-static void option_add_nonascending(struct ListNode**);
-static void option_reverse(struct ListNode**);
-static void option_remove_occurences(struct ListNode**);
-static void option_clear(struct ListNode**);
+static void option_print_list(struct ListNode **);
+static void option_print_element(struct ListNode **);
+static void option_add_first(struct ListNode **);
+static void option_add_last(struct ListNode **);
+static void option_add_nonascending(struct ListNode **);
+static void option_reverse(struct ListNode **);
+static void option_remove_occurences(struct ListNode **);
+static void option_clear(struct ListNode **);
+
+static void flush() { char c; while ((c = getchar()) != '\n' && c != EOF){} }
 
 void list_menu(struct ListNode **list)
 {
     while (true)
     {
-        printf("What do you want to do?\n");
+        //flush();
+        printf("\033[H\033[2J" "List: ");
+        print(*list);
+        printf("\nWhat do you want to do?\n");
         printf("1. Print the list\n"
                "2. Print an element at a given index\n"
                "3. Add at the beginning\n"
@@ -27,11 +32,13 @@ void list_menu(struct ListNode **list)
                "7. Remove all occurences of a given value\n"
                "8. Clear the list\n"
                "9. Exit\n");
-        fflush(stdin);
 
         int answer = -1;
-        if(!scanf("%d", &answer)) return;
-        switch(answer)
+        if (!scanf("%d", &answer))
+            return;
+        flush();
+        printf("%d\n", answer);
+        switch (answer)
         {
         case 1:
             option_print_list(list);
@@ -73,11 +80,12 @@ static void option_print_list(struct ListNode **list)
 static void option_print_element(struct ListNode **list)
 {
     printf("Enter an index:\n");
-    while(true)
+    while (true)
     {
         int index = -1;
         int parsed = scanf("%d", &index);
-        if(index < 0 || parsed <= 0)
+        flush();
+        if (index < 0 || parsed < 1)
             break;
         struct ListNode *node = get_node_at(*list, index);
         char buffer[15];
@@ -87,30 +95,80 @@ static void option_print_element(struct ListNode **list)
 
 static void option_add_first(struct ListNode **list)
 {
-
+    printf("Enter a value:\n");
+    while (true)
+    {
+        int value;
+        int parsed = scanf("%d", &value);
+        flush();
+        if (parsed < 1)
+            break;
+        add_first(list, value);
+        printf("Added node with value %d at the beginning\n", value);
+    }
 }
 
 static void option_add_last(struct ListNode **list)
 {
-
+    printf("Enter a value:\n");
+    while (true)
+    {
+        int value;
+        int parsed = scanf("%d", &value);
+        flush();
+        if (parsed < 1)
+            break;
+        add_last(list, value);
+        printf("Added node with value %d at the end\n", value);
+    }
 }
 
 static void option_add_nonascending(struct ListNode **list)
 {
-
+    printf("Enter a value:\n");
+    while (true)
+    {
+        int value;
+        int parsed = scanf("%d", &value);
+        flush();
+        if (parsed < 1)
+            break;
+        add_nonascending(list, value);
+        printf("Added node with value %d at position %d\n", value, index_of_node(*list, value));
+    }
 }
 
 static void option_reverse(struct ListNode **list)
 {
-
+    reverse(list);
+    printf("List reversed\n");
 }
 
 static void option_remove_occurences(struct ListNode **list)
 {
-
+    printf("Enter a value to remove:\n");
+    while (true)
+    {
+        int value;
+        int parsed = scanf("%d", &value);
+        flush();
+        if (parsed < 1)
+            break;
+        remove_all(list, value);
+        printf("Removed occurences of %d", value);
+    }
 }
 
 static void option_clear(struct ListNode **list)
 {
-
+    printf("Do you really want to clear the list? [Y/N]\n");
+    char answer = 'N';
+    //flush();
+    scanf("%c", &answer);
+    flush();
+    if (answer == 'Y' || answer == 'y')
+    {
+        clear(list);
+        printf("List cleared\n");
+    }
 }
