@@ -1,7 +1,9 @@
 #include "list_node.h"
 #include "list_menu.h"
+#include "utility.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
 
 static void option_print_list(struct ListNode **);
@@ -12,8 +14,6 @@ static void option_add_nonascending(struct ListNode **);
 static void option_reverse(struct ListNode **);
 static void option_remove_occurences(struct ListNode **);
 static void option_clear(struct ListNode **);
-
-static void flush() { char c; while ((c = getchar()) != '\n' && c != EOF){} }
 
 void list_menu(struct ListNode **list)
 {
@@ -34,9 +34,9 @@ void list_menu(struct ListNode **list)
                "9. Exit\n");
 
         int answer = -1;
-        if (!scanf("%d", &answer))
-            return;
-        flush();
+        char buffer[50];
+        read(buffer, 50);
+        
         printf("%d\n", answer);
         switch (answer)
         {
@@ -82,14 +82,14 @@ static void option_print_element(struct ListNode **list)
     printf("Enter an index:\n");
     while (true)
     {
-        int index = -1;
-        int parsed = scanf("%d", &index);
-        flush();
-        if (index < 0 || parsed < 1)
+        int index =  -1;
+        int success = read_int(&index);
+        if (success < 1 || index < 0)
             break;
         struct ListNode *node = get_node_at(*list, index);
-        char buffer[15];
-        printf("Node at %d %s\n", index, node ? snprintf(buffer, 15, "has value %d", node->value), buffer : "is out of range");
+        char write_buffer[15];
+        printf("Node at %d %s\n", index, 
+            node ? snprintf(write_buffer, 15, "has value %d", node->value), write_buffer : "is out of range");
     }
 }
 
@@ -98,10 +98,9 @@ static void option_add_first(struct ListNode **list)
     printf("Enter a value:\n");
     while (true)
     {
-        int value;
-        int parsed = scanf("%d", &value);
-        flush();
-        if (parsed < 1)
+        int value = 0;
+        int success = read_int(&value);
+        if (success < 1)
             break;
         add_first(list, value);
         printf("Added node with value %d at the beginning\n", value);
@@ -113,10 +112,9 @@ static void option_add_last(struct ListNode **list)
     printf("Enter a value:\n");
     while (true)
     {
-        int value;
-        int parsed = scanf("%d", &value);
-        flush();
-        if (parsed < 1)
+        int value = 0;
+        int success = read_int(&value);
+        if (success < 1)
             break;
         add_last(list, value);
         printf("Added node with value %d at the end\n", value);
@@ -128,10 +126,9 @@ static void option_add_nonascending(struct ListNode **list)
     printf("Enter a value:\n");
     while (true)
     {
-        int value;
-        int parsed = scanf("%d", &value);
-        flush();
-        if (parsed < 1)
+        int value = 0;
+        int success = read_int(&value);
+        if (success < 1)
             break;
         add_nonascending(list, value);
         printf("Added node with value %d at position %d\n", value, index_of_node(*list, value));
@@ -149,10 +146,9 @@ static void option_remove_occurences(struct ListNode **list)
     printf("Enter a value to remove:\n");
     while (true)
     {
-        int value;
-        int parsed = scanf("%d", &value);
-        flush();
-        if (parsed < 1)
+        int value = 0;
+        int success = read_int(&value);
+        if (success < 1)
             break;
         remove_all(list, value);
         printf("Removed occurences of %d", value);
@@ -163,7 +159,6 @@ static void option_clear(struct ListNode **list)
 {
     printf("Do you really want to clear the list? [Y/N]\n");
     char answer = 'N';
-    //flush();
     scanf("%c", &answer);
     flush();
     if (answer == 'Y' || answer == 'y')
