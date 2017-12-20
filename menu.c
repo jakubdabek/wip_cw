@@ -17,7 +17,7 @@ void menu(struct ListNode **list)
         printf("\033[H\033[2JWhat do you want to work with?\n");
         printf("1. Singly linked list\n"
                "2. Tree\n"
-               "3. Exit");
+               "3. Exit\n");
         
         int answer = -1;
         read_int(&answer);

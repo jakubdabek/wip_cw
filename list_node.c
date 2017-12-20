@@ -110,8 +110,8 @@ void remove_all(struct ListNode **ptr, int value)
         if((*ptr)->value == value)
         {
             struct ListNode *temp = (*ptr)->next;
-            (*ptr)->next = temp->next;
-            free(temp);
+            free(*ptr);
+            *ptr = temp;
         }
         else
         {
@@ -123,15 +123,16 @@ void remove_all(struct ListNode **ptr, int value)
 void reverse(struct ListNode **ptr)
 {
     struct ListNode *previous = NULL;
-    struct ListNode *current = NULL;
+    struct ListNode *next = (*ptr)->next;
 
-    while(*ptr)
+    while(next)
     {
-        previous = current;
-        current = *ptr;
-        *ptr = current->next;
-        current->next = previous;
+        (*ptr)->next = previous;
+        previous = *ptr;
+        *ptr = next;
+        next = next->next;
     }
+    (*ptr)->next = previous;
 }
 
 void clear(struct ListNode **ptr)

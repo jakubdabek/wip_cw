@@ -17,7 +17,6 @@ const char* read(char *buffer, size_t size)
         buffer[strlen(buffer) - 1] = '\0';
     else
         flush();
-    printf("got: %s\n", buffer);
 
     return buffer;
 }
@@ -25,7 +24,8 @@ const char* read(char *buffer, size_t size)
 int read_int(int *value)
 {
     char buffer[100];
-    printf("reading int: %s", read(buffer, 100));
+    if(!read(buffer, 100)) 
+        return 0;
     int success = sscanf(buffer, "%d", value);
 
     return success;

@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-static void option_print_list(struct ListNode **);
 static void option_print_element(struct ListNode **);
 static void option_add_first(struct ListNode **);
 static void option_add_last(struct ListNode **);
@@ -23,58 +22,47 @@ void list_menu(struct ListNode **list)
         printf("\033[H\033[2J" "List: ");
         print(*list);
         printf("\nWhat do you want to do?\n");
-        printf("1. Print the list\n"
-               "2. Print an element at a given index\n"
-               "3. Add at the beginning\n"
-               "4. Add at the end\n"
-               "5. Add non-ascending\n"
-               "6. Reverse the list\n"
-               "7. Remove all occurences of a given value\n"
-               "8. Clear the list\n"
-               "9. Exit\n");
+        printf("1. Print an element at a given index\n"
+               "2. Add at the beginning\n"
+               "3. Add at the end\n"
+               "4. Add non-ascending\n"
+               "5. Reverse the list\n"
+               "6. Remove all occurences of a given value\n"
+               "7. Clear the list\n"
+               "8. Exit\n");
 
         int answer = -1;
-        char buffer[50];
-        read(buffer, 50);
+        read_int(&answer);
         
-        printf("%d\n", answer);
         switch (answer)
         {
         case 1:
-            option_print_list(list);
-            break;
-        case 2:
             option_print_element(list);
             break;
-        case 3:
+        case 2:
             option_add_first(list);
             break;
-        case 4:
+        case 3:
             option_add_last(list);
             break;
-        case 5:
+        case 4:
             option_add_nonascending(list);
             break;
-        case 6:
+        case 5:
             option_reverse(list);
             break;
-        case 7:
+        case 6:
             option_remove_occurences(list);
             break;
-        case 8:
+        case 7:
             option_clear(list);
             break;
-        case 9:
+        case 8:
             return;
         default:
             printf("WRONG NUMBER FFS");
         }
     }
-}
-
-static void option_print_list(struct ListNode **list)
-{
-    print(*list);
 }
 
 static void option_print_element(struct ListNode **list)
@@ -90,6 +78,7 @@ static void option_print_element(struct ListNode **list)
         char write_buffer[15];
         printf("Node at %d %s\n", index, 
             node ? snprintf(write_buffer, 15, "has value %d", node->value), write_buffer : "is out of range");
+        //flush();
     }
 }
 
@@ -158,9 +147,8 @@ static void option_remove_occurences(struct ListNode **list)
 static void option_clear(struct ListNode **list)
 {
     printf("Do you really want to clear the list? [Y/N]\n");
-    char answer = 'N';
-    scanf("%c", &answer);
-    flush();
+    char answer = fgetc(stdin);
+    if(answer != -1) flush();
     if (answer == 'Y' || answer == 'y')
     {
         clear(list);

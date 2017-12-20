@@ -32,10 +32,8 @@ void tree_menu(struct TreeNode **tree)
                "9. Exit\n");
 
         int answer = -1;
-        char buffer[50];
-        read(buffer, 50);
+        read_int(&answer);
         
-        printf("%d\n", answer);
         switch (answer)
         {
         case 1:

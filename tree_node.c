@@ -10,25 +10,43 @@ struct TreeNode* add(struct TreeNode **tree, int value)
 
 void clear(struct TreeNode **tree)
 {
-    if(*tree == NULL) return;
-    struct TreeNode *ptr1 = (*tree)->left, *ptr2 = NULL;
-
-    while(true)
+    struct TreeNode **node = tree;
+    
+    while(*node)
     {
-        if((*tree)->right == NULL)
+        node = &((*node)->left);
+    }
+    while(*tree)
+    {
+        *node = (*tree)->right;
+        while(*node)
         {
+            node = &((*node)->left);
+        }
+        struct TreeNode *tmp = (*tree)->left;
+        free(*tree);
+        *tree = tmp;
+    }
+}
+
+void clear2(struct TreeNode **tree)
+{
+    struct TreeNode *current = *tree;
+    while(*tree)
+    {
+        if(current->left)
+        {
+            current = current->left;
+        }
+        else
+        {
+            current->left = (*tree)->left;
+            struct TreeNode *tmp = (*tree)->left;
+            if(current == *tree)
+                current = current->left;
             free(*tree);
-            *tree = ptr1;
-            if(ptr1 == NULL) return;
-            ptr1 = ptr1->left;
+            *tree = tmp;
         }
-        else if(ptr1 != NULL)
-        {
-            ptr2 = ptr1->left;
-            ptr1->left = *tree;
-            (*tree)->left = ptr2;
-            *tree = ptr1;
-            ptr1 = ptr1->left;
-        }
+        
     }
 }
